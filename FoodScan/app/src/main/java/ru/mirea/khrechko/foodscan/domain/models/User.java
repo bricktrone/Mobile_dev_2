@@ -1,26 +1,17 @@
 package ru.mirea.khrechko.foodscan.domain.models;
 
 public class User {
+    private final String id;
+    private final String login;
+    private final boolean guest;
 
-    private int id;
-    private String login;
-    private boolean guest;
-
-    public User(int id, String login, boolean guest) {
+    public User(String id, String login, boolean guest) {
         this.id = id;
         this.login = login;
         this.guest = guest;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public boolean isGuest() {
-        return guest;
-    }
+    public String getId() { return id; }
+    public String getLogin() { return login; }
+    public boolean isGuest() { return guest; }
 }

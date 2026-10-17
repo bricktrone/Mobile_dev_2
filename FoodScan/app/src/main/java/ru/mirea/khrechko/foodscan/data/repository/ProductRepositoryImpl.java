@@ -1,122 +1,46 @@
 package ru.mirea.khrechko.foodscan.data.repository;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.mirea.khrechko.foodscan.data.network.NetworkApi;
+import ru.mirea.khrechko.foodscan.data.network.ProductDto;
 import ru.mirea.khrechko.foodscan.domain.models.Product;
 import ru.mirea.khrechko.foodscan.domain.repository.ProductRepository;
 
 public class ProductRepositoryImpl implements ProductRepository {
+    private final NetworkApi networkApi;
 
-    private final List<Product> catalog;
-
-    public ProductRepositoryImpl(Context context) {
-
-        catalog = new ArrayList<>();
-
-        catalog.add(
-                new Product(
-                        1,
-                        "Молоко",
-                        "Простоквашино",
-                        "https://example.com/milk.jpg",
-                        "Молоко нормализованное",
-                        60
-                )
-        );
-
-        catalog.add(
-                new Product(
-                        2,
-                        "Банан",
-                        "FoodScan",
-                        "https://example.com/banana.jpg",
-                        "Банан",
-                        89
-                )
-        );
-
-        catalog.add(
-                new Product(
-                        3,
-                        "Яблоко",
-                        "FoodScan",
-                        "https://example.com/apple.jpg",
-                        "Яблоко",
-                        52
-                )
-        );
-
-        catalog.add(
-                new Product(
-                        4,
-                        "Шоколад",
-                        "Alpen Gold",
-                        "https://example.com/chocolate.jpg",
-                        "Какао, сахар, сухое молоко",
-                        535
-                )
-        );
-
-        catalog.add(
-                new Product(
-                        5,
-                        "Хлеб",
-                        "Хлебный дом",
-                        "https://example.com/bread.jpg",
-                        "Мука пшеничная, вода, соль, дрожжи",
-                        250
-                )
-        );
+    public ProductRepositoryImpl(NetworkApi networkApi) {
+        this.networkApi = networkApi;
     }
 
     @Override
     public List<Product> getCatalog() {
-        return catalog;
+        List<Product> result = new ArrayList<>();
+        for (ProductDto dto : networkApi.getProducts()) result.add(mapToDomain(dto));
+        return result;
     }
 
     @Override
     public Product getProductById(int id) {
-
-        for (Product product : catalog) {
-
-            if (product.getId() == id) {
-                return product;
-            }
+        for (ProductDto dto : networkApi.getProducts()) {
+            if (dto.id == id) return mapToDomain(dto);
         }
-
         return null;
     }
 
     @Override
     public Product findByBarcode(String barcode) {
-
-        if (barcode == null) {
-            return null;
+        if (barcode == null) return null;
+        String target = barcode.trim();
+        for (ProductDto dto : networkApi.getProducts()) {
+            if (dto.barcode.equals(target)) return mapToDomain(dto);
         }
+        return null;
+    }
 
-        // Тестовые штрихкоды
-        switch (barcode) {
-
-            case "460000000001":
-                return catalog.get(0);
-
-            case "460000000002":
-                return catalog.get(1);
-
-            case "460000000003":
-                return catalog.get(2);
-
-            case "460000000004":
-                return catalog.get(3);
-
-            case "460000000005":
-                return catalog.get(4);
-
-            default:
-                return null;
-        }
+    private Product mapToDomain(ProductDto dto) {
+        return new Product(dto.id, dto.name, dto.brand, dto.imageUrl, dto.ingredients, dto.calories);
     }
 }

@@ -1,79 +1,54 @@
 package ru.mirea.khrechko.foodscan.data.repository;
 
-import android.content.Context;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import ru.mirea.khrechko.foodscan.data.room.FavoriteProductDao;
+import ru.mirea.khrechko.foodscan.data.room.FavoriteProductEntity;
+import ru.mirea.khrechko.foodscan.data.room.FoodScanDatabase;
 import ru.mirea.khrechko.foodscan.domain.models.Product;
 import ru.mirea.khrechko.foodscan.domain.repository.FavoriteRepository;
 
 public class FavoriteRepositoryImpl implements FavoriteRepository {
+    private final FavoriteProductDao dao;
 
-    private final Map<Integer, List<Product>> favorites;
-
-    public FavoriteRepositoryImpl(Context context) {
-        favorites = new HashMap<>();
+    public FavoriteRepositoryImpl(FoodScanDatabase database) {
+        dao = database.favoriteProductDao();
     }
 
     @Override
-    public boolean add(int userId, Product product) {
-
-        if (product == null) {
-            return false;
-        }
-
-        List<Product> userFavorites =
-                favorites.get(userId);
-
-        if (userFavorites == null) {
-            userFavorites = new ArrayList<>();
-            favorites.put(userId, userFavorites);
-        }
-
-        for (Product item : userFavorites) {
-
-            if (item.getId() == product.getId()) {
-                return false;
-            }
-        }
-
-        userFavorites.add(product);
-
+    public boolean add(String userId, Product product) {
+        if (isEmpty(userId) || product == null) return false;
+        if (dao.getByUserAndProduct(userId, product.getId()) != null) return false;
+        dao.insert(mapToEntity(userId, product));
         return true;
     }
 
     @Override
-    public boolean remove(int userId, Product product) {
-
-        if (product == null) {
-            return false;
-        }
-
-        List<Product> userFavorites =
-                favorites.get(userId);
-
-        if (userFavorites == null) {
-            return false;
-        }
-
-        return userFavorites.removeIf(
-                item -> item.getId() == product.getId()
-        );
+    public boolean remove(String userId, Product product) {
+        if (isEmpty(userId) || product == null) return false;
+        return dao.delete(userId, product.getId()) > 0;
     }
 
     @Override
-    public List<Product> getFavorites(int userId) {
-
-        List<Product> userFavorites =
-                favorites.get(userId);
-
-        if (userFavorites == null) {
-            return new ArrayList<>();
+    public List<Product> getFavorites(String userId) {
+        List<Product> result = new ArrayList<>();
+        if (isEmpty(userId)) return result;
+        for (FavoriteProductEntity entity : dao.getByUserId(userId)) {
+            result.add(mapToDomain(entity));
         }
+        return result;
+    }
 
-        return new ArrayList<>(userFavorites);
+    private boolean isEmpty(String value) { return value == null || value.trim().isEmpty(); }
+
+    private FavoriteProductEntity mapToEntity(String userId, Product product) {
+        return new FavoriteProductEntity(userId, product.getId(), product.getName(),
+                product.getBrand(), product.getImageUrl(), product.getIngredients(), product.getCalories());
+    }
+
+    private Product mapToDomain(FavoriteProductEntity entity) {
+        return new Product(entity.productId, entity.name, entity.brand, entity.imageUrl,
+                entity.ingredients, entity.calories);
     }
 }
