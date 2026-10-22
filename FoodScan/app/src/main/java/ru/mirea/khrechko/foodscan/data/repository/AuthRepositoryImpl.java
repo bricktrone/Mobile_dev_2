@@ -20,6 +20,7 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     @Override
     public boolean login(String email, String password) {
+        lastError = "";
         try {
             AuthUserDto user = authSource.signIn(email.trim(), password);
             userStorage.save(mapToStorage(user));
@@ -33,6 +34,7 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     @Override
     public boolean register(String email, String password, String displayName) {
+        lastError = "";
         try {
             AuthUserDto user = authSource.register(email.trim(), password, displayName);
             userStorage.save(mapToStorage(user));

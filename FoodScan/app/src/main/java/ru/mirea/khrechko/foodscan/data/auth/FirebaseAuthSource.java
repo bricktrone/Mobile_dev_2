@@ -4,7 +4,9 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -52,22 +54,29 @@ public class FirebaseAuthSource {
     }
 
     private String mapError(Throwable error) {
-        Throwable current = error;
-        while (current.getCause() != null && current.getCause() != current) {
-            current = current.getCause();
+        // Firebase tasks may wrap their actual exception. Inspect the complete
+        // cause chain instead of checking only the deepest cause.
+        for (Throwable current = error; current != null; current = current.getCause()) {
+            if (current instanceof FirebaseAuthWeakPasswordException) {
+                return "Пароль должен содержать не менее 6 символов.";
+            }
+            if (current instanceof FirebaseAuthUserCollisionException) {
+                return "Аккаунт с такой почтой уже зарегистрирован.";
+            }
+            if (current instanceof FirebaseNetworkException) {
+                return "Нет подключения к сети. Проверьте интернет и повторите попытку.";
+            }
+            if (current instanceof FirebaseAuthInvalidUserException) {
+                return "Аккаунт не найден или отключён.";
+            }
+            if (current instanceof FirebaseAuthInvalidCredentialsException) {
+                String code = ((FirebaseAuthException) current).getErrorCode();
+                if (code != null && code.toLowerCase(java.util.Locale.ROOT).contains("email")) {
+                    return "Введите корректный адрес электронной почты.";
+                }
+                return "Неверная почта или пароль.";
+            }
         }
-        if (current instanceof FirebaseAuthWeakPasswordException) {
-            return "Пароль должен содержать не менее 6 символов.";
-        }
-        if (current instanceof FirebaseAuthUserCollisionException) {
-            return "Аккаунт с такой почтой уже зарегистрирован.";
-        }
-        if (current instanceof FirebaseAuthInvalidCredentialsException) {
-            return "Неверная почта или пароль.";
-        }
-        if (current instanceof FirebaseNetworkException) {
-            return "Нет подключения к сети. Проверьте интернет и повторите попытку.";
-        }
-        return "Не удалось выполнить авторизацию. Проверьте данные и настройки Firebase.";
+        return "Не удалось выполнить авторизацию. Проверьте подключение и настройки Firebase.";
     }
 }

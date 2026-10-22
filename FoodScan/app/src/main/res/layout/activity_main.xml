@@ -22,6 +22,9 @@
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
         android:text="Каталог продуктов" android:textStyle="bold" android:textSize="20sp"
         android:paddingTop="8dp" android:paddingBottom="8dp" />
+    <TextView android:id="@+id/textDataSources" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="Каталог из NetworkApi и избранное из Room"
+        android:textSize="12sp" android:paddingTop="4dp" android:paddingBottom="4dp" />
     <ListView android:id="@+id/listProducts" android:layout_width="match_parent"
         android:layout_height="0dp" android:layout_weight="1"
         android:dividerHeight="8dp" />
