@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/drawable_ic_event_flag.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/drawable/ic_event_flag.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/drawable_ic_event_city.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/drawable/ic_event_city.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/drawable_ic_event_book.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/drawable/ic_event_book.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/drawable_ic_event_medal.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/drawable/ic_event_medal.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/drawable_ic_event_web.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/drawable/ic_event_web.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/layout_activity_main.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/layout/activity_main.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/layout_event_item_view.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/layout/event_item_view.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/drawable_ic_event_scroll.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/drawable/ic_event_scroll.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/drawable_ic_event_shield.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/drawable/ic_event_shield.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/drawable_ic_event_star.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/drawable/ic_event_star.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/drawable_ic_event_rocket.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/drawable/ic_event_rocket.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.recyclerviewapp-debug-26:/drawable_ic_event_building.xml.flat",
+        "source": "ru.mirea.khrechko.recyclerviewapp-main-28:/drawable/ic_event_building.xml"
+    }
+]

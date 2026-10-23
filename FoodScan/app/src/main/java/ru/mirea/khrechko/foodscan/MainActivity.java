@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import ru.mirea.khrechko.foodscan.domain.models.User;
 
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
-    private ProductAdapter adapter;
+    private ProductRecyclerViewAdapter adapter;
     private TextView textProfile;
     private TextView textDataSources;
     private Button buttonAccount;
@@ -35,10 +36,10 @@ public class MainActivity extends AppCompatActivity {
         textProfile = findViewById(R.id.textProfile);
         textDataSources = findViewById(R.id.textDataSources);
         buttonAccount = findViewById(R.id.buttonAccount);
-        ListView listProducts = findViewById(R.id.listProducts);
-        adapter = new ProductAdapter(this, new ArrayList<>());
-        listProducts.setAdapter(adapter);
-        listProducts.setOnItemClickListener((parent, view, position, id) -> openProduct(adapter.getItem(position)));
+        RecyclerView recyclerProducts = findViewById(R.id.recyclerProducts);
+        recyclerProducts.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ProductRecyclerViewAdapter(this::openProduct);
+        recyclerProducts.setAdapter(adapter);
 
         viewModel = new ViewModelProvider(this, new FoodScanViewModelFactory(this))
                 .get(MainViewModel.class);
@@ -46,11 +47,8 @@ public class MainActivity extends AppCompatActivity {
             currentUser = user;
             updateProfileHeader();
         });
-        viewModel.getCatalog().observe(this, products -> {
-            adapter.clear();
-            if (products != null) adapter.addAll(products);
-            adapter.notifyDataSetChanged();
-        });
+        // Catalog arrives through LiveData from MainViewModel (NetworkApi mock -> repository -> use case).
+        viewModel.getCatalog().observe(this, adapter::setItems);
         viewModel.getCatalogStorageSummary().observe(this, textDataSources::setText);
         viewModel.getFavoriteDialogItems().observe(this, this::showFavoritesResult);
         viewModel.getProductFromBarcode().observe(this, product -> {

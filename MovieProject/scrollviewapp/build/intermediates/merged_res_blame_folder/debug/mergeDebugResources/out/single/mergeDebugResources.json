@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "ru.mirea.khrechko.scrollviewapp-debug-23:/layout_activity_main.xml.flat",
+        "source": "ru.mirea.khrechko.scrollviewapp-main-25:/layout/activity_main.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.scrollviewapp-debug-23:/layout_item.xml.flat",
+        "source": "ru.mirea.khrechko.scrollviewapp-main-25:/layout/item.xml"
+    }
+]

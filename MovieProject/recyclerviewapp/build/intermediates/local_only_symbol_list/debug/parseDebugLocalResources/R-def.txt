@@ -1,0 +1,20 @@
+R_DEF: Internal format may change without notice
+local
+drawable ic_event_book
+drawable ic_event_building
+drawable ic_event_city
+drawable ic_event_flag
+drawable ic_event_medal
+drawable ic_event_rocket
+drawable ic_event_scroll
+drawable ic_event_shield
+drawable ic_event_star
+drawable ic_event_web
+id imageEvent
+id recyclerEvents
+id textEventDescription
+id textEventTitle
+id textEventYear
+layout activity_main
+layout event_item_view
+style Theme.RecyclerViewApp

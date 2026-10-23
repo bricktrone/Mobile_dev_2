@@ -26,6 +26,8 @@ android {
 }
 
 dependencies {
+    // Align Kotlin stdlib and legacy jdk7/jdk8 artifacts to prevent Duplicate class errors.
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.22"))
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(libs.appcompat)
