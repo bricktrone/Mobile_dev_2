@@ -47,9 +47,14 @@ public class MainActivity extends AppCompatActivity {
             currentUser = user;
             updateProfileHeader();
         });
-        // Catalog arrives through LiveData from MainViewModel (NetworkApi mock -> repository -> use case).
+        // LiveData receives the Open Food Facts catalog through Retrofit -> repository -> use case.
         viewModel.getCatalog().observe(this, adapter::setItems);
-        viewModel.getCatalogStorageSummary().observe(this, textDataSources::setText);
+        viewModel.getCatalogStorageSummary().observe(this, summary -> {
+            textDataSources.setText(summary);
+            Button retryButton = findViewById(R.id.buttonRetryCatalog);
+            retryButton.setVisibility(summary != null && summary.contains("Ошибка загрузки каталога:")
+                    ? android.view.View.VISIBLE : android.view.View.GONE);
+        });
         viewModel.getFavoriteDialogItems().observe(this, this::showFavoritesResult);
         viewModel.getProductFromBarcode().observe(this, product -> {
             if (product != null) openProduct(product);
@@ -71,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.buttonFavorites).setOnClickListener(v -> viewModel.loadFavoritesForDialog());
         findViewById(R.id.buttonBarcode).setOnClickListener(v -> askBarcode());
         findViewById(R.id.buttonRecognize).setOnClickListener(v -> viewModel.runDemoRecognition());
+        findViewById(R.id.buttonRetryCatalog).setOnClickListener(v -> viewModel.reloadCatalog());
     }
 
     @Override
@@ -108,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void askBarcode() {
         EditText input = new EditText(this);
-        input.setHint("Например, 460000000001");
+        input.setHint("Например, 3017620422003");
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         new AlertDialog.Builder(this).setTitle("Поиск по штрихкоду").setView(input)
                 .setNegativeButton("Отмена", null)

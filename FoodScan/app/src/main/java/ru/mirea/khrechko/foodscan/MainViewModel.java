@@ -7,11 +7,11 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import ru.mirea.khrechko.foodscan.data.network.NetworkException;
 import ru.mirea.khrechko.foodscan.domain.FindProductByBarcodeUseCase;
 import ru.mirea.khrechko.foodscan.domain.GetFavoritesUseCase;
 import ru.mirea.khrechko.foodscan.domain.GetProductCatalogUseCase;
@@ -26,7 +26,7 @@ import ru.mirea.khrechko.foodscan.domain.repository.FavoriteRepository;
 import ru.mirea.khrechko.foodscan.domain.repository.ProductRepository;
 import ru.mirea.khrechko.foodscan.domain.repository.RecognitionRepository;
 
-/** Main screen state. The network mock and Room data are merged by MediatorLiveData. */
+/** Main screen state. Retrofit catalog data and Room favorites are observed by LiveData. */
 public class MainViewModel extends ViewModel {
     private static final String TAG = MainViewModel.class.getSimpleName();
 
@@ -41,6 +41,7 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<User> currentUser = new MutableLiveData<>();
     private final MutableLiveData<List<Product>> catalogFromNetwork = new MutableLiveData<>();
     private final MutableLiveData<List<Product>> favoritesFromDb = new MutableLiveData<>();
+    private final MutableLiveData<String> catalogError = new MutableLiveData<>();
     private final MediatorLiveData<String> catalogStorageSummary = new MediatorLiveData<>();
     private final MutableLiveData<List<Product>> favoriteDialogItems = new MutableLiveData<>();
     private final MutableLiveData<Product> productFromBarcode = new MutableLiveData<>();
@@ -59,6 +60,7 @@ public class MainViewModel extends ViewModel {
 
         catalogStorageSummary.addSource(catalogFromNetwork, ignored -> updateCatalogStorageSummary());
         catalogStorageSummary.addSource(favoritesFromDb, ignored -> updateCatalogStorageSummary());
+        catalogStorageSummary.addSource(catalogError, ignored -> updateCatalogStorageSummary());
         loadInitialData();
     }
 
@@ -72,17 +74,55 @@ public class MainViewModel extends ViewModel {
 
     private void loadInitialData() {
         io.execute(() -> {
-            currentUser.postValue(getProfileUseCase.execute());
-            catalogFromNetwork.postValue(getProductCatalogUseCase.execute());
-            favoritesFromDb.postValue(getFavoritesUseCase.execute());
+            try {
+                currentUser.postValue(getProfileUseCase.execute());
+            } catch (RuntimeException e) {
+                Log.e(TAG, "Не удалось получить профиль", e);
+            }
+            loadCatalogSafely();
+            try {
+                favoritesFromDb.postValue(getFavoritesUseCase.execute());
+            } catch (RuntimeException e) {
+                Log.e(TAG, "Не удалось загрузить избранное из Room", e);
+                favoritesFromDb.postValue(null);
+            }
         });
+    }
+
+    /** Retry button calls this; the actual Retrofit request stays on the I/O executor. */
+    public void reloadCatalog() {
+        catalogFromNetwork.setValue(null);
+        catalogError.setValue(null);
+        io.execute(this::loadCatalogSafely);
+    }
+
+    private void loadCatalogSafely() {
+        try {
+            List<Product> products = getProductCatalogUseCase.execute();
+            catalogFromNetwork.postValue(products);
+            catalogError.postValue(null);
+        } catch (NetworkException e) {
+            Log.e(TAG, "Ошибка загрузки каталога из Open Food Facts", e);
+            catalogFromNetwork.postValue(null);
+            catalogError.postValue(e.getMessage());
+        } catch (RuntimeException e) {
+            Log.e(TAG, "Непредвиденная ошибка загрузки каталога", e);
+            catalogFromNetwork.postValue(null);
+            catalogError.postValue("Не удалось загрузить каталог. Повторите попытку.");
+        }
     }
 
     private void updateCatalogStorageSummary() {
         List<Product> products = catalogFromNetwork.getValue();
         List<Product> favorites = favoritesFromDb.getValue();
-        String catalogText = products == null ? "Каталог из NetworkApi: загрузка…"
-                : "Каталог из NetworkApi: " + products.size() + " продуктов";
+        String error = catalogError.getValue();
+        String catalogText;
+        if (error != null && !error.trim().isEmpty()) {
+            catalogText = "Ошибка загрузки каталога: " + error;
+        } else {
+            catalogText = products == null ? "Каталог Open Food Facts: загрузка…"
+                    : "Каталог Open Food Facts: " + products.size() + " продуктов";
+        }
         String favoritesText = favorites == null ? "Избранное из Room: загрузка…"
                 : "Избранное из Room: " + favorites.size() + " продуктов";
         catalogStorageSummary.setValue(catalogText + "\n" + favoritesText);
@@ -107,16 +147,18 @@ public class MainViewModel extends ViewModel {
         io.execute(() -> favoritesFromDb.postValue(getFavoritesUseCase.execute()));
     }
 
-    public void clearFavoriteDialogItems() {
-        favoriteDialogItems.setValue(null);
-    }
+    public void clearFavoriteDialogItems() { favoriteDialogItems.setValue(null); }
 
     public void findProductByBarcode(String barcode) {
         productFromBarcode.setValue(null);
         io.execute(() -> {
-            Product product = findProductByBarcodeUseCase.execute(barcode);
-            productFromBarcode.postValue(product);
-            if (product == null) message.postValue("Продукт не найден в тестовом каталоге");
+            try {
+                Product product = findProductByBarcodeUseCase.execute(barcode);
+                productFromBarcode.postValue(product);
+                if (product == null) message.postValue("Open Food Facts не нашёл продукт с таким штрихкодом");
+            } catch (RuntimeException e) {
+                message.postValue("Не удалось найти продукт: " + e.getMessage());
+            }
         });
     }
 

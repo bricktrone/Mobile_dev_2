@@ -9,14 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.mirea.khrechko.foodscan.domain.models.Product;
 
-/** RecyclerView adapter for the mock product catalog supplied by the repository. */
+/** RecyclerView adapter for products received from Open Food Facts via Retrofit. */
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductViewHolder> {
     public interface OnProductClickListener {
         void onProductClick(Product product);
@@ -48,12 +48,18 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         Product product = items.get(position);
         holder.name.setText(product.getName());
         holder.subtitle.setText(product.getBrand() + " · " + product.getCalories() + " ккал");
-        Glide.with(holder.image)
-                .load(product.getImageUrl())
-                .placeholder(android.R.drawable.ic_menu_gallery)
-                .error(android.R.drawable.ic_menu_gallery)
-                .centerCrop()
-                .into(holder.image);
+        String imageUrl = product.getImageUrl();
+        if (imageUrl == null || imageUrl.trim().isEmpty()) {
+            holder.image.setImageResource(android.R.drawable.ic_menu_gallery);
+        } else {
+            Picasso.get()
+                    .load(imageUrl)
+                    .placeholder(android.R.drawable.ic_menu_gallery)
+                    .error(android.R.drawable.ic_menu_gallery)
+                    .fit()
+                    .centerCrop()
+                    .into(holder.image);
+        }
         holder.itemView.setOnClickListener(v -> {
             if (clickListener != null) clickListener.onProductClick(product);
         });

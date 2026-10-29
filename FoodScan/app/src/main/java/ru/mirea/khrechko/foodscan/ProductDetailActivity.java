@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import ru.mirea.khrechko.foodscan.domain.models.Product;
 
@@ -60,7 +60,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         textBrand.setText("Бренд: " + product.getBrand());
         textIngredients.setText("Состав: " + product.getIngredients());
         textCalories.setText("Энергетическая ценность: " + product.getCalories() + " ккал");
-        Glide.with(this).load(product.getImageUrl()).placeholder(android.R.drawable.ic_menu_gallery)
-                .error(android.R.drawable.ic_menu_gallery).centerCrop().into(image);
+        String imageUrl = product.getImageUrl();
+        if (imageUrl == null || imageUrl.trim().isEmpty()) {
+            image.setImageResource(android.R.drawable.ic_menu_gallery);
+        } else {
+            Picasso.get().load(imageUrl).placeholder(android.R.drawable.ic_menu_gallery)
+                    .error(android.R.drawable.ic_menu_gallery).fit().centerCrop().into(image);
+        }
     }
 }

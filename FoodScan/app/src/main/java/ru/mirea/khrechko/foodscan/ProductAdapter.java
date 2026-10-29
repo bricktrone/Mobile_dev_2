@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,10 +37,15 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         if (product != null) {
             name.setText(product.getName());
             subtitle.setText(product.getBrand() + " · " + product.getCalories() + " ккал");
-            Glide.with(getContext()).load(product.getImageUrl())
-                    .placeholder(android.R.drawable.ic_menu_gallery)
-                    .error(android.R.drawable.ic_menu_gallery)
-                    .centerCrop().into(image);
+            String imageUrl = product.getImageUrl();
+            if (imageUrl == null || imageUrl.trim().isEmpty()) {
+                image.setImageResource(android.R.drawable.ic_menu_gallery);
+            } else {
+                Picasso.get().load(imageUrl)
+                        .placeholder(android.R.drawable.ic_menu_gallery)
+                        .error(android.R.drawable.ic_menu_gallery)
+                        .fit().centerCrop().into(image);
+            }
         }
         return row;
     }

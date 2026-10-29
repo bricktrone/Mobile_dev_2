@@ -15,6 +15,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         this.networkApi = networkApi;
     }
 
+    /** Maps the remote Open Food Facts DTOs into domain entities. */
     @Override
     public List<Product> getCatalog() {
         List<Product> result = new ArrayList<>();
@@ -24,20 +25,14 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product getProductById(int id) {
-        for (ProductDto dto : networkApi.getProducts()) {
-            if (dto.id == id) return mapToDomain(dto);
-        }
-        return null;
+        ProductDto dto = networkApi.getProductById(id);
+        return dto == null ? null : mapToDomain(dto);
     }
 
     @Override
     public Product findByBarcode(String barcode) {
-        if (barcode == null) return null;
-        String target = barcode.trim();
-        for (ProductDto dto : networkApi.getProducts()) {
-            if (dto.barcode.equals(target)) return mapToDomain(dto);
-        }
-        return null;
+        ProductDto dto = networkApi.getProductByBarcode(barcode);
+        return dto == null ? null : mapToDomain(dto);
     }
 
     private Product mapToDomain(ProductDto dto) {

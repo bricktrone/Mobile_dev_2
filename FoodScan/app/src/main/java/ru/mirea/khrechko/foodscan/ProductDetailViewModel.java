@@ -55,10 +55,17 @@ public class ProductDetailViewModel extends ViewModel {
         if (loadedProductId == productId && product.getValue() != null) return;
         loadedProductId = productId;
         io.execute(() -> {
-            Product loaded = getProductDetailsUseCase.execute(productId);
-            product.postValue(loaded);
-            User user = getProfileUseCase.execute();
-            canSaveFavorite.postValue(user != null && !user.isGuest());
+            try {
+                Product loaded = getProductDetailsUseCase.execute(productId);
+                product.postValue(loaded);
+                User user = getProfileUseCase.execute();
+                canSaveFavorite.postValue(user != null && !user.isGuest());
+            } catch (RuntimeException e) {
+                Log.e(TAG, "Не удалось загрузить карточку продукта", e);
+                product.postValue(null);
+                message.postValue("Не удалось загрузить карточку продукта: "
+                        + (e.getMessage() == null ? "ошибка сети" : e.getMessage()));
+            }
         });
     }
 

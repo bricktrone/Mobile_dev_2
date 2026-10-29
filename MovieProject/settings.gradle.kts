@@ -23,3 +23,5 @@ include(":domain")
 include(":scrollviewapp")
 include(":listviewapp")
 include(":recyclerviewapp")
+
+include(":retrofitapp")

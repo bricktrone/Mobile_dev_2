@@ -23,8 +23,11 @@
         android:text="Каталог продуктов" android:textStyle="bold" android:textSize="20sp"
         android:paddingTop="8dp" android:paddingBottom="8dp" />
     <TextView android:id="@+id/textDataSources" android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:text="Каталог из NetworkApi и избранное из Room"
+        android:layout_height="wrap_content" android:text="Каталог Open Food Facts и избранное из Room"
         android:textSize="12sp" android:paddingTop="4dp" android:paddingBottom="4dp" />
+    <Button android:id="@+id/buttonRetryCatalog" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Повторить загрузку каталога"
+        android:visibility="gone" />
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerProducts" android:layout_width="match_parent"
         android:layout_height="0dp" android:layout_weight="1"
         android:clipToPadding="false" android:paddingBottom="8dp" />
