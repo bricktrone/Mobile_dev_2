@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FoodScan</string>
+    <string name="foodscan_description">Разумный выбор продуктов</string>
 </resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/food_bg">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+        <include layout="@layout/fragment_app_header" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Найти по штрихкоду"
+            android:textColor="@color/food_heading" android:textSize="25sp" android:textStyle="bold" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Введите код под штрихкодом упаковки, чтобы открыть карточку продукта."
+            android:textColor="@color/food_muted" android:textSize="13sp" android:lineSpacingExtra="3dp" android:paddingTop="7dp" />
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="180dp"
+            android:layout_marginTop="18dp" app:cardBackgroundColor="@color/food_soft" app:cardCornerRadius="18dp" app:strokeColor="#B7D1BB" app:strokeWidth="1dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical">
+                <ImageView android:layout_width="64dp" android:layout_height="64dp" android:src="@drawable/ic_barcode" android:tint="@color/food_green" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Поиск продукта"
+                    android:textColor="@color/food_green" android:textStyle="bold" android:textSize="13sp" android:paddingTop="9dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ручной ввод штрихкода"
+                    android:textColor="@color/food_muted" android:textSize="11sp" android:paddingTop="3dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Штрихкод"
+            android:textColor="@color/food_heading" android:textStyle="bold" android:textSize="12sp" android:paddingTop="18dp" android:paddingBottom="7dp" />
+        <EditText android:id="@+id/editBarcode" android:layout_width="match_parent" android:layout_height="52dp"
+            android:background="@drawable/bg_food_input" android:hint="Например, 3017620422003" android:inputType="number"
+            android:singleLine="true" android:textColor="@color/food_heading" android:textColorHint="#8A9B90"
+            android:paddingHorizontal="14dp" android:textSize="14sp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/buttonFindProduct"
+            android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="12dp"
+            android:text="Найти продукт" android:textAllCaps="false" app:cornerRadius="12dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="В этой версии используется ручной ввод. Для считывания камерой можно подключить библиотеку сканирования штрихкодов."
+            android:textColor="@color/food_muted" android:textSize="11sp" android:lineSpacingExtra="3dp"
+            android:padding="12dp" android:background="@drawable/bg_food_card" android:layout_marginTop="14dp" />
+    </LinearLayout>
+</ScrollView>

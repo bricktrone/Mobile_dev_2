@@ -10,6 +10,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/FragmentApp" />
+            <option value="$PROJECT_DIR$/FragmentManagerApp" />
+            <option value="$PROJECT_DIR$/ResultApiFragmentApp" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />

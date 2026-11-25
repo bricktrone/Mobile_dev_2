@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
+    android:background="#F3F7F4" android:padding="20dp">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Страны" android:textColor="#204A39" android:textSize="28sp" android:textStyle="bold" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Выберите страну, чтобы открыть подробную информацию" android:textColor="#668171"
+        android:textSize="13sp" android:paddingTop="5dp" android:paddingBottom="14dp" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerCountries"
+        android:layout_width="match_parent" android:layout_height="match_parent" />
+</LinearLayout>

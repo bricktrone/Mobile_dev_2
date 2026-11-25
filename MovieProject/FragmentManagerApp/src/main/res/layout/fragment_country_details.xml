@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#F3F7F4">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="22dp">
+        <Button android:id="@+id/buttonBack" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="← К списку" />
+        <TextView android:id="@+id/textCountryEmoji" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textSize="64sp" android:gravity="center" android:paddingTop="20dp" />
+        <TextView android:id="@+id/textCountryName" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textSize="28sp" android:textStyle="bold" android:textColor="#204A39" android:gravity="center" />
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" app:cardCornerRadius="18dp" app:strokeColor="#DCE7DE" app:strokeWidth="1dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+                <TextView android:id="@+id/textCountryCapital" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#204A39" android:textSize="16sp" />
+                <TextView android:id="@+id/textCountryPopulation" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#668171" android:textSize="14sp" android:paddingTop="10dp" />
+                <TextView android:id="@+id/textCountryDescription" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#617669" android:textSize="14sp" android:lineSpacingExtra="4dp" android:paddingTop="14dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>

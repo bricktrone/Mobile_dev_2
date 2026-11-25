@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,6 +21,7 @@ public class AuthActivity extends AppCompatActivity {
     private Button buttonRegister;
     private Button buttonGuest;
     private TextView textError;
+    private View nameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,8 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auth);
 
         editName = findViewById(R.id.editDisplayName);
+        nameLayout = findViewById(R.id.layoutDisplayName);
+        nameLayout.setVisibility(View.GONE);
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
@@ -42,8 +46,8 @@ public class AuthActivity extends AppCompatActivity {
             if (Boolean.TRUE.equals(open)) openMain();
         });
 
-        buttonLogin.setOnClickListener(v -> authenticate(false));
-        buttonRegister.setOnClickListener(v -> authenticate(true));
+        buttonLogin.setOnClickListener(v -> { nameLayout.setVisibility(View.GONE); authenticate(false); });
+        buttonRegister.setOnClickListener(v -> { nameLayout.setVisibility(View.VISIBLE); authenticate(true); });
         buttonGuest.setOnClickListener(v -> viewModel.continueAsGuest());
         viewModel.checkSession();
     }
@@ -61,7 +65,9 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void openMain() {
-        startActivity(new Intent(this, MainActivity.class));
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
         finish();
     }
 }

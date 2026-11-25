@@ -47,15 +47,16 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = items.get(position);
         holder.name.setText(product.getName());
-        holder.subtitle.setText(product.getBrand() + " · " + product.getCalories() + " ккал");
+        String energy = product.getCalories() > 0 ? product.getCalories() + " ккал" : "Калорийность не указана";
+        holder.subtitle.setText(product.getBrand() + " · " + energy);
         String imageUrl = product.getImageUrl();
         if (imageUrl == null || imageUrl.trim().isEmpty()) {
-            holder.image.setImageResource(android.R.drawable.ic_menu_gallery);
+            holder.image.setImageResource(R.drawable.ic_package);
         } else {
             Picasso.get()
                     .load(imageUrl)
-                    .placeholder(android.R.drawable.ic_menu_gallery)
-                    .error(android.R.drawable.ic_menu_gallery)
+                    .placeholder(R.drawable.ic_package)
+                    .error(R.drawable.ic_package)
                     .fit()
                     .centerCrop()
                     .into(holder.image);

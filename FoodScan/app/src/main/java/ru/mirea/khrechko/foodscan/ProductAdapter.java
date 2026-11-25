@@ -36,14 +36,15 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         TextView subtitle = row.findViewById(R.id.textProductSubtitle);
         if (product != null) {
             name.setText(product.getName());
-            subtitle.setText(product.getBrand() + " · " + product.getCalories() + " ккал");
+            String energy = product.getCalories() > 0 ? product.getCalories() + " ккал" : "Калорийность не указана";
+            subtitle.setText(product.getBrand() + " · " + energy);
             String imageUrl = product.getImageUrl();
             if (imageUrl == null || imageUrl.trim().isEmpty()) {
-                image.setImageResource(android.R.drawable.ic_menu_gallery);
+                image.setImageResource(R.drawable.ic_package);
             } else {
                 Picasso.get().load(imageUrl)
-                        .placeholder(android.R.drawable.ic_menu_gallery)
-                        .error(android.R.drawable.ic_menu_gallery)
+                        .placeholder(R.drawable.ic_package)
+                        .error(R.drawable.ic_package)
                         .fit().centerCrop().into(image);
             }
         }

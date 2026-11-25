@@ -34,6 +34,7 @@ public class ProductDetailViewModel extends ViewModel {
 
     private final MutableLiveData<Product> product = new MutableLiveData<>();
     private final MutableLiveData<Boolean> canSaveFavorite = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> isFavorite = new MutableLiveData<>(false);
     private final MutableLiveData<String> message = new MutableLiveData<>();
     private int loadedProductId = -1;
 
@@ -49,6 +50,7 @@ public class ProductDetailViewModel extends ViewModel {
 
     public LiveData<Product> getProduct() { return product; }
     public LiveData<Boolean> getCanSaveFavorite() { return canSaveFavorite; }
+    public LiveData<Boolean> getIsFavorite() { return isFavorite; }
     public LiveData<String> getMessage() { return message; }
 
     public void loadProduct(int productId) {
@@ -59,7 +61,14 @@ public class ProductDetailViewModel extends ViewModel {
                 Product loaded = getProductDetailsUseCase.execute(productId);
                 product.postValue(loaded);
                 User user = getProfileUseCase.execute();
-                canSaveFavorite.postValue(user != null && !user.isGuest());
+                boolean allowed = user != null && !user.isGuest();
+                canSaveFavorite.postValue(allowed);
+                boolean saved = false;
+                if (allowed) {
+                    List<Product> favorites = getFavoritesUseCase.execute();
+                    for (Product item : favorites) if (item.getId() == loaded.getId()) { saved = true; break; }
+                }
+                isFavorite.postValue(saved);
             } catch (RuntimeException e) {
                 Log.e(TAG, "Не удалось загрузить карточку продукта", e);
                 product.postValue(null);
@@ -92,6 +101,7 @@ public class ProductDetailViewModel extends ViewModel {
             boolean changed = exists
                     ? removeFromFavoritesUseCase.execute(selected)
                     : addToFavoritesUseCase.execute(selected);
+            if (changed) isFavorite.postValue(!exists);
             message.postValue(changed
                     ? (exists ? "Удалено из избранного" : "Добавлено в избранное")
                     : "Не удалось изменить избранное");

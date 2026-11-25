@@ -25,3 +25,8 @@ include(":listviewapp")
 include(":recyclerviewapp")
 
 include(":retrofitapp")
+
+include(":FragmentApp")
+include(":FragmentManagerApp")
+include(":ResultApiFragmentApp")
+

@@ -36,6 +36,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     private Product mapToDomain(ProductDto dto) {
-        return new Product(dto.id, dto.name, dto.brand, dto.imageUrl, dto.ingredients, dto.calories);
+        return new Product(dto.id, dto.name, dto.brand, dto.imageUrl, dto.ingredients,
+                dto.calories, dto.proteins, dto.fat);
     }
 }

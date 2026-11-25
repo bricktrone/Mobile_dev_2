@@ -1,34 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main" android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical" android:padding="12dp">
-    <TextView android:id="@+id/textProfile" android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:text="Режим гостя" android:textStyle="bold"
-        android:textSize="18sp" android:padding="8dp" />
-    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:fillViewport="true" android:scrollbars="none">
-        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button android:id="@+id/buttonAccount" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="Войти" />
-            <Button android:id="@+id/buttonFavorites" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="Избранное" />
-            <Button android:id="@+id/buttonBarcode" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="Штрихкод" />
-            <Button android:id="@+id/buttonRecognize" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="Распознать" />
-        </LinearLayout>
-    </HorizontalScrollView>
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="Каталог продуктов" android:textStyle="bold" android:textSize="20sp"
-        android:paddingTop="8dp" android:paddingBottom="8dp" />
-    <TextView android:id="@+id/textDataSources" android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:text="Каталог Open Food Facts и избранное из Room"
-        android:textSize="12sp" android:paddingTop="4dp" android:paddingBottom="4dp" />
-    <Button android:id="@+id/buttonRetryCatalog" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:text="Повторить загрузку каталога"
-        android:visibility="gone" />
-    <androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerProducts" android:layout_width="match_parent"
-        android:layout_height="0dp" android:layout_weight="1"
-        android:clipToPadding="false" android:paddingBottom="8dp" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/food_bg">
+    <FrameLayout android:id="@+id/fragmentContainer" android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:background="@color/white"
+        app:menu="@menu/menu_bottom_navigation" app:itemIconTint="@color/food_nav_tint"
+        app:itemTextColor="@color/food_nav_tint" app:labelVisibilityMode="labeled"
+        app:elevation="8dp" />
 </LinearLayout>

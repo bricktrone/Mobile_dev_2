@@ -1,0 +1,15 @@
+R_DEF: Internal format may change without notice
+local
+id buttonBack
+id fragment_container
+id recyclerCountries
+id textCountryCapital
+id textCountryDescription
+id textCountryEmoji
+id textCountryName
+id textCountryPopulation
+layout activity_main
+layout fragment_country_details
+layout fragment_country_list
+layout item_country
+style Theme.FragmentPractice

@@ -1,0 +1,13 @@
+R_DEF: Internal format may change without notice
+local
+id checkTaskDone
+id fragment_container
+id recyclerTasks
+id textProgress
+id textStudentNumber
+id textTaskStatus
+id textTaskTitle
+layout activity_main
+layout fragment_tasks
+layout item_task
+style Theme.FragmentPractice

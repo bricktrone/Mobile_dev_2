@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
+    android:background="#F3F7F4" android:padding="22dp">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Передача данных" android:textColor="#204A39" android:textSize="28sp" android:textStyle="bold" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Введите сообщение. Оно будет передано во всплывающий Bottom Sheet через Fragment Result API."
+        android:textColor="#668171" android:textSize="14sp" android:paddingTop="8dp" android:paddingBottom="18dp" />
+    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="Сообщение" style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/editTextInfo"
+            android:layout_width="match_parent" android:layout_height="wrap_content" android:minLines="2" android:inputType="textMultiLine" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.button.MaterialButton android:id="@+id/buttonOpenBottomSheet"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp"
+        android:text="Передать данные" />
+</LinearLayout>

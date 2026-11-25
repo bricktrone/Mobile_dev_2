@@ -45,6 +45,7 @@ public class MainViewModel extends ViewModel {
     private final MediatorLiveData<String> catalogStorageSummary = new MediatorLiveData<>();
     private final MutableLiveData<List<Product>> favoriteDialogItems = new MutableLiveData<>();
     private final MutableLiveData<Product> productFromBarcode = new MutableLiveData<>();
+    private final MutableLiveData<Integer> selectedProductId = new MutableLiveData<>();
     private final MutableLiveData<String> message = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loggedOut = new MutableLiveData<>(false);
 
@@ -68,7 +69,10 @@ public class MainViewModel extends ViewModel {
     public LiveData<List<Product>> getCatalog() { return catalogFromNetwork; }
     public LiveData<String> getCatalogStorageSummary() { return catalogStorageSummary; }
     public LiveData<List<Product>> getFavoriteDialogItems() { return favoriteDialogItems; }
+    public LiveData<List<Product>> getFavorites() { return favoritesFromDb; }
+    public LiveData<Integer> getSelectedProductId() { return selectedProductId; }
     public LiveData<Product> getProductFromBarcode() { return productFromBarcode; }
+    public void clearProductFromBarcode() { productFromBarcode.setValue(null); }
     public LiveData<String> getMessage() { return message; }
     public LiveData<Boolean> getLoggedOut() { return loggedOut; }
 
@@ -144,10 +148,39 @@ public class MainViewModel extends ViewModel {
 
     /** Refreshes the Room source when returning from a product details screen. */
     public void refreshFavoritesSource() {
-        io.execute(() -> favoritesFromDb.postValue(getFavoritesUseCase.execute()));
+        io.execute(() -> {
+            try { favoritesFromDb.postValue(getFavoritesUseCase.execute()); }
+            catch (RuntimeException e) { Log.e(TAG, "Не удалось обновить избранное", e); }
+        });
     }
 
     public void clearFavoriteDialogItems() { favoriteDialogItems.setValue(null); }
+
+    public void selectProduct(int productId) { selectedProductId.setValue(productId); }
+
+    public void loadFavorites() {
+        io.execute(() -> {
+            try {
+                User user = getProfileUseCase.execute();
+                currentUser.postValue(user);
+                if (user == null || user.isGuest()) {
+                    favoritesFromDb.postValue(java.util.Collections.emptyList());
+                } else {
+                    favoritesFromDb.postValue(getFavoritesUseCase.execute());
+                }
+            } catch (RuntimeException e) {
+                Log.e(TAG, "Не удалось обновить избранное", e);
+                favoritesFromDb.postValue(java.util.Collections.emptyList());
+            }
+        });
+    }
+
+    public void refreshProfile() {
+        io.execute(() -> {
+            try { currentUser.postValue(getProfileUseCase.execute()); }
+            catch (RuntimeException e) { Log.e(TAG, "Не удалось обновить профиль", e); }
+        });
+    }
 
     public void findProductByBarcode(String barcode) {
         productFromBarcode.setValue(null);
@@ -162,9 +195,11 @@ public class MainViewModel extends ViewModel {
         });
     }
 
-    public void runDemoRecognition() {
+    public void runDemoRecognition() { runRecognition("demo-image"); }
+
+    public void runRecognition(String imagePath) {
         io.execute(() -> {
-            RecognitionResult result = recognizeProductUseCase.execute("demo-image");
+            RecognitionResult result = recognizeProductUseCase.execute(imagePath == null ? "" : imagePath);
             if (result == null) {
                 message.postValue("Не удалось распознать изображение");
             } else {

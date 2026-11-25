@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/food_bg">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        <include layout="@layout/fragment_app_header" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Профиль"
+            android:textColor="@color/food_heading" android:textSize="25sp" android:textStyle="bold" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:paddingTop="20dp" android:paddingBottom="18dp">
+            <ImageView android:layout_width="74dp" android:layout_height="74dp" android:padding="19dp"
+                android:background="@drawable/bg_food_soft" android:src="@drawable/ic_user" android:tint="@color/food_green" />
+            <TextView android:id="@+id/textProfileName" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Гостевой режим" android:textColor="@color/food_heading" android:textStyle="bold" android:textSize="16sp" android:gravity="center" android:paddingTop="11dp" />
+            <TextView android:id="@+id/textProfileEmail" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Войдите, чтобы использовать аккаунт" android:textColor="@color/food_muted" android:textSize="11sp" android:gravity="center" android:paddingTop="4dp" />
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton android:id="@+id/buttonProfileLogin" android:layout_width="match_parent"
+            android:layout_height="48dp" android:text="Войти" android:textAllCaps="false" app:cornerRadius="12dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/buttonProfileRegister" style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="8dp"
+            android:text="Создать аккаунт" android:textAllCaps="false" app:cornerRadius="12dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/buttonProfileLogout" style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="8dp"
+            android:text="Выйти из аккаунта" android:textAllCaps="false" android:visibility="gone" app:cornerRadius="12dp" />
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" app:cardCornerRadius="15dp" app:strokeColor="@color/food_line" app:strokeWidth="1dp" app:cardElevation="0dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+                <LinearLayout android:id="@+id/menuMyFavorites" android:layout_width="match_parent" android:layout_height="55dp" android:gravity="center_vertical" android:paddingHorizontal="14dp">
+                    <ImageView android:layout_width="28dp" android:layout_height="28dp" android:padding="6dp" android:background="@drawable/bg_food_soft" android:src="@drawable/ic_heart" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Моё избранное" android:textColor="@color/food_heading" android:textStyle="bold" android:textSize="12sp" android:paddingStart="10dp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="@color/food_muted" android:textSize="20sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/food_line" />
+                <LinearLayout android:id="@+id/menuRecognition" android:layout_width="match_parent" android:layout_height="55dp" android:gravity="center_vertical" android:paddingHorizontal="14dp">
+                    <ImageView android:layout_width="28dp" android:layout_height="28dp" android:padding="6dp" android:background="@drawable/bg_food_soft" android:src="@drawable/ic_camera" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Распознавание продукта" android:textColor="@color/food_heading" android:textStyle="bold" android:textSize="12sp" android:paddingStart="10dp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="@color/food_muted" android:textSize="20sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/food_line" />
+                <LinearLayout android:id="@+id/menuAbout" android:layout_width="match_parent" android:layout_height="55dp" android:gravity="center_vertical" android:paddingHorizontal="14dp">
+                    <ImageView android:layout_width="28dp" android:layout_height="28dp" android:padding="6dp" android:background="@drawable/bg_food_soft" android:src="@drawable/ic_info" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="О приложении" android:textColor="@color/food_heading" android:textStyle="bold" android:textSize="12sp" android:paddingStart="10dp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="@color/food_muted" android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="FoodScan · Разумный выбор продуктов" android:textColor="#829287" android:textSize="10sp" android:gravity="center" android:paddingTop="16dp" />
+    </LinearLayout>
+</ScrollView>

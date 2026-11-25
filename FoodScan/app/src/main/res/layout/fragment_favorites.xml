@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:orientation="vertical" android:background="@color/food_bg" android:padding="16dp">
+    <include layout="@layout/fragment_app_header" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Избранное"
+        android:textColor="@color/food_heading" android:textSize="25sp" android:textStyle="bold" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Продукты, к которым хочется быстро вернуться." android:textColor="@color/food_muted" android:textSize="12sp" android:paddingTop="5dp" android:paddingBottom="14dp" />
+    <TextView android:id="@+id/textFavoritesStatus" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Загрузка избранного…" android:textColor="@color/food_muted" android:textSize="11sp" android:paddingBottom="8dp" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerFavorites" android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1" android:clipToPadding="false" />
+    <LinearLayout android:id="@+id/emptyFavorites" android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1" android:gravity="center" android:orientation="vertical" android:visibility="gone">
+        <ImageView android:layout_width="60dp" android:layout_height="60dp" android:padding="15dp"
+            android:background="@drawable/bg_food_soft" android:src="@drawable/ic_heart" android:tint="@color/food_green" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Пока здесь пусто"
+            android:textColor="@color/food_heading" android:textStyle="bold" android:textSize="16sp" android:gravity="center" android:paddingTop="12dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Добавляй продукты в избранное из их карточек, чтобы быстро находить их снова."
+            android:textColor="@color/food_muted" android:textSize="12sp" android:gravity="center" android:paddingTop="5dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/buttonBrowseProducts" android:layout_width="wrap_content"
+            android:layout_height="44dp" android:layout_marginTop="13dp" android:text="Перейти к продуктам" android:textAllCaps="false" app:cornerRadius="12dp" />
+    </LinearLayout>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Избранное хранится локально с помощью Room."
+        android:textColor="#829287" android:textSize="10sp" android:gravity="center" android:paddingTop="9dp" />
+</LinearLayout>

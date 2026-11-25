@@ -56,5 +56,7 @@ public interface OpenFoodFactsApi {
     class Nutriments {
         @SerializedName("energy-kcal_100g") public Double energyKcal100g;
         @SerializedName("energy-kcal") public Double energyKcal;
+        @SerializedName("proteins_100g") public Double proteins100g;
+        @SerializedName("fat_100g") public Double fat100g;
     }
 }

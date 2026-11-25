@@ -122,14 +122,18 @@ public class NetworkApi {
                 ? "Состав не указан в базе" : item.ingredientsText.trim();
         String imageUrl = isBlank(item.imageFrontUrl) ? "" : item.imageFrontUrl.trim();
         int calories = 0;
+        double proteins = -1;
+        double fat = -1;
         if (item.nutriments != null) {
             Double kcal = item.nutriments.energyKcal100g != null
                     ? item.nutriments.energyKcal100g : item.nutriments.energyKcal;
             if (kcal != null && kcal >= 0 && kcal < Integer.MAX_VALUE) calories = (int) Math.round(kcal);
+            if (item.nutriments.proteins100g != null && item.nutriments.proteins100g >= 0) proteins = item.nutriments.proteins100g;
+            if (item.nutriments.fat100g != null && item.nutriments.fat100g >= 0) fat = item.nutriments.fat100g;
         }
         int id = code.hashCode() & 0x7fffffff;
         if (id == 0) id = 1;
-        return new ProductDto(id, code, name, brand, imageUrl, ingredients, calories);
+        return new ProductDto(id, code, name, brand, imageUrl, ingredients, calories, proteins, fat);
     }
 
     private static boolean isBlank(String value) {

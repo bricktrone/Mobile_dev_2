@@ -2,131 +2,102 @@ package ru.mirea.khrechko.foodscan;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import ru.mirea.khrechko.foodscan.domain.models.Product;
-import ru.mirea.khrechko.foodscan.domain.models.User;
 
+/** Single-activity host. Each application screen is a Fragment managed by FragmentManager. */
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
-    private ProductRecyclerViewAdapter adapter;
-    private TextView textProfile;
-    private TextView textDataSources;
-    private Button buttonAccount;
-    private User currentUser;
+    private BottomNavigationView bottomNavigation;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        textProfile = findViewById(R.id.textProfile);
-        textDataSources = findViewById(R.id.textDataSources);
-        buttonAccount = findViewById(R.id.buttonAccount);
-        RecyclerView recyclerProducts = findViewById(R.id.recyclerProducts);
-        recyclerProducts.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ProductRecyclerViewAdapter(this::openProduct);
-        recyclerProducts.setAdapter(adapter);
-
-        viewModel = new ViewModelProvider(this, new FoodScanViewModelFactory(this))
-                .get(MainViewModel.class);
-        viewModel.getCurrentUser().observe(this, user -> {
-            currentUser = user;
-            updateProfileHeader();
+        viewModel = new ViewModelProvider(this, new FoodScanViewModelFactory(this)).get(MainViewModel.class);
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+        bottomNavigation.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_home) showRoot(new HomeFragment());
+            else if (id == R.id.nav_scan) showRoot(new ScanFragment());
+            else if (id == R.id.nav_favorites) showRoot(new FavoritesFragment());
+            else if (id == R.id.nav_profile) showRoot(new ProfileFragment());
+            else return false;
+            return true;
         });
-        // LiveData receives the Open Food Facts catalog through Retrofit -> repository -> use case.
-        viewModel.getCatalog().observe(this, adapter::setItems);
-        viewModel.getCatalogStorageSummary().observe(this, summary -> {
-            textDataSources.setText(summary);
-            Button retryButton = findViewById(R.id.buttonRetryCatalog);
-            retryButton.setVisibility(summary != null && summary.contains("Ошибка загрузки каталога:")
-                    ? android.view.View.VISIBLE : android.view.View.GONE);
-        });
-        viewModel.getFavoriteDialogItems().observe(this, this::showFavoritesResult);
         viewModel.getProductFromBarcode().observe(this, product -> {
-            if (product != null) openProduct(product);
+            if (product != null) {
+                viewModel.clearProductFromBarcode();
+                openProduct(product);
+            }
         });
         viewModel.getMessage().observe(this, message -> {
-            if (message != null && !message.trim().isEmpty()) {
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            }
+            if (message != null && !message.trim().isEmpty()) Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         });
         viewModel.getLoggedOut().observe(this, loggedOut -> {
             if (Boolean.TRUE.equals(loggedOut)) {
                 viewModel.clearLoggedOut();
-                startActivity(new Intent(this, AuthActivity.class));
+                Intent intent = new Intent(this, AuthActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 finish();
             }
         });
-
-        buttonAccount.setOnClickListener(v -> onAccountClicked());
-        findViewById(R.id.buttonFavorites).setOnClickListener(v -> viewModel.loadFavoritesForDialog());
-        findViewById(R.id.buttonBarcode).setOnClickListener(v -> askBarcode());
-        findViewById(R.id.buttonRecognize).setOnClickListener(v -> viewModel.runDemoRecognition());
-        findViewById(R.id.buttonRetryCatalog).setOnClickListener(v -> viewModel.reloadCatalog());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (viewModel != null) viewModel.refreshFavoritesSource();
-    }
-
-    private void updateProfileHeader() {
-        boolean guest = currentUser == null || currentUser.isGuest();
-        textProfile.setText(guest ? "Режим гостя" : "Пользователь: " + currentUser.getLogin());
-        buttonAccount.setText(guest ? "Войти" : "Выйти");
-    }
-
-    private void onAccountClicked() {
-        if (currentUser == null || currentUser.isGuest()) {
-            startActivity(new Intent(this, AuthActivity.class));
-            finish();
-            return;
+        if (savedInstanceState == null) {
+            bottomNavigation.setSelectedItemId(R.id.nav_home);
         }
-        viewModel.logout();
     }
 
-    private void showFavoritesResult(List<Product> products) {
-        if (products == null) return;
-        List<String> names = new ArrayList<>();
-        for (Product product : products) names.add(product.getName());
-        if (names.isEmpty()) names.add("Избранное пока пусто");
-        new AlertDialog.Builder(this).setTitle("Избранные продукты")
-                .setItems(names.toArray(new String[0]), (dialog, which) -> {
-                    if (which < products.size()) openProduct(products.get(which));
-                }).setPositiveButton("Закрыть", null).show();
-        viewModel.clearFavoriteDialogItems();
+    private void showRoot(@NonNull Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+
+        manager.popBackStack(
+                null,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+        );
+
+        manager.beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(
+                        R.id.fragmentContainer,
+                        fragment,
+                        fragment.getClass().getSimpleName()
+                )
+                .commit();
     }
 
-    private void askBarcode() {
-        EditText input = new EditText(this);
-        input.setHint("Например, 3017620422003");
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        new AlertDialog.Builder(this).setTitle("Поиск по штрихкоду").setView(input)
-                .setNegativeButton("Отмена", null)
-                .setPositiveButton("Найти", (dialog, which) ->
-                        viewModel.findProductByBarcode(input.getText().toString()))
-                .show();
+    public void navigateTo(@NonNull Fragment fragment, @NonNull String backStackName) {
+        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true)
+                .replace(R.id.fragmentContainer, fragment, fragment.getClass().getSimpleName())
+                .addToBackStack(backStackName).commit();
     }
 
-    private void openProduct(Product product) {
-        if (product == null) return;
-        Intent intent = new Intent(this, ProductDetailActivity.class);
-        intent.putExtra("product_id", product.getId());
+    public void openProduct(@NonNull Product product) {
+        viewModel.selectProduct(product.getId());
+        navigateTo(ProductDetailFragment.newInstance(product.getId()), "product_detail");
+    }
+
+    public void openRecognition() { navigateTo(new RecognitionFragment(), "recognition"); }
+    public void openAuth() {
+        Intent intent = new Intent(this, AuthActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+    }
+
+    public MainViewModel getMainViewModel() { return viewModel; }
+
+    public void selectTab(int menuItemId) {
+        bottomNavigation.setSelectedItemId(menuItemId);
+    }
+
+    @Override protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        if (viewModel != null) viewModel.refreshProfile();
     }
 }
