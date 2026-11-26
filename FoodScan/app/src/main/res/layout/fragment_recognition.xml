@@ -7,7 +7,7 @@
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Распознавание продукта"
             android:textColor="@color/food_heading" android:textSize="25sp" android:textStyle="bold" android:paddingTop="4dp" />
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Выберите фотографию продукта, чтобы запустить сценарий распознавания."
+            android:text="Сфотографируйте продукт или выберите изображение из галереи. TensorFlow Lite определит наиболее вероятную категорию блюда непосредственно на телефоне."
             android:textColor="@color/food_muted" android:textSize="12sp" android:paddingTop="7dp" />
         <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="220dp"
             android:layout_marginTop="18dp" app:cardCornerRadius="18dp" app:cardBackgroundColor="@color/food_soft" app:strokeColor="#B7D1BB" app:strokeWidth="1dp">
@@ -19,20 +19,22 @@
                     <ImageView android:layout_width="64dp" android:layout_height="64dp" android:src="@drawable/ic_camera" android:tint="@color/food_green" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Добавить фотографию"
                         android:textColor="@color/food_green" android:textStyle="bold" android:textSize="13sp" android:paddingTop="9dp" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Поддерживаются JPG и PNG"
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Лучше фотографировать само блюдо целиком"
                         android:textColor="@color/food_muted" android:textSize="10sp" android:paddingTop="4dp" />
                 </LinearLayout>
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.button.MaterialButton android:id="@+id/buttonChooseImage" android:layout_width="match_parent"
-            android:layout_height="48dp" android:layout_marginTop="12dp" android:text="Выбрать фотографию" android:textAllCaps="false" app:cornerRadius="12dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/buttonTakePhoto" android:layout_width="match_parent"
+            android:layout_height="48dp" android:layout_marginTop="12dp" android:text="Сделать фото" android:textAllCaps="false" app:cornerRadius="12dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/buttonChooseImage" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent"
+            android:layout_height="48dp" android:layout_marginTop="8dp" android:text="Выбрать из галереи" android:textAllCaps="false" app:cornerRadius="12dp" />
         <com.google.android.material.button.MaterialButton android:id="@+id/buttonRunRecognition" style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="8dp"
             android:text="Распознать продукт" android:textAllCaps="false" app:cornerRadius="12dp" />
         <TextView android:id="@+id/textRecognitionResult" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="" android:textColor="@color/food_heading" android:textSize="13sp" android:paddingTop="12dp" />
+            android:text="" android:textColor="@color/food_heading" android:textSize="13sp" android:lineSpacingExtra="4dp" android:paddingTop="12dp" />
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="В текущем проекте подключён демонстрационный репозиторий распознавания (без TensorFlow Lite модели). Перед выпуском приложения его нужно заменить на выбранную обученную модель."
+            android:text="При первом распознавании модель AIY Food V1 загрузится из TensorFlow Hub и сохранится на устройстве. Далее классификация работает без интернета. Модель определяет категории блюд, а не торговую марку или состав упакованного продукта."
             android:textColor="@color/food_muted" android:textSize="11sp" android:lineSpacingExtra="3dp" android:padding="12dp"
             android:background="@drawable/bg_food_card" android:layout_marginTop="13dp" />
     </LinearLayout>

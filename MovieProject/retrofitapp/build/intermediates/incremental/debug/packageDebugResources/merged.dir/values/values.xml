@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="image_modes">
-        <item>Обычные</item>
-        <item>Обрезка centerCrop</item>
-        <item>Круглые</item>
-        <item>Маленькие 48 dp</item>
-    </string-array>
-</resources>

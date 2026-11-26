@@ -5,6 +5,9 @@ plugins {
 
 android {
     buildFeatures { viewBinding = true }
+    androidResources {
+        noCompress += "tflite"
+    }
     namespace = "ru.mirea.khrechko.foodscan"
     compileSdk = 36
 
@@ -36,6 +39,10 @@ android {
 dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    // Google Code Scanner: camera-based barcode UI powered by Google Play services.
+    implementation("com.google.android.gms:play-services-code-scanner:16.1.0")
+    // TensorFlow Lite Task Vision image classifier.
+    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("androidx.room:room-runtime:2.8.5")
     annotationProcessor("androidx.room:room-compiler:2.8.5")

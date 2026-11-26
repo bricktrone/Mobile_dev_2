@@ -48,6 +48,9 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<Integer> selectedProductId = new MutableLiveData<>();
     private final MutableLiveData<String> message = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loggedOut = new MutableLiveData<>(false);
+    private final MutableLiveData<RecognitionResult> recognitionResult = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> recognitionInProgress = new MutableLiveData<>(false);
+    private final MutableLiveData<String> recognitionError = new MutableLiveData<>();
 
     public MainViewModel(AuthRepository authRepository, ProductRepository productRepository,
                          FavoriteRepository favoriteRepository, RecognitionRepository recognitionRepository) {
@@ -75,6 +78,10 @@ public class MainViewModel extends ViewModel {
     public void clearProductFromBarcode() { productFromBarcode.setValue(null); }
     public LiveData<String> getMessage() { return message; }
     public LiveData<Boolean> getLoggedOut() { return loggedOut; }
+    public LiveData<RecognitionResult> getRecognitionResult() { return recognitionResult; }
+    public LiveData<Boolean> getRecognitionInProgress() { return recognitionInProgress; }
+    public LiveData<String> getRecognitionError() { return recognitionError; }
+    public void clearRecognitionResult() { recognitionResult.setValue(null); recognitionError.setValue(null); }
 
     private void loadInitialData() {
         io.execute(() -> {
@@ -195,17 +202,31 @@ public class MainViewModel extends ViewModel {
         });
     }
 
-    public void runDemoRecognition() { runRecognition("demo-image"); }
-
+    /** Runs local TensorFlow Lite classification on the existing I/O executor. */
     public void runRecognition(String imagePath) {
+        if (imagePath == null || imagePath.trim().isEmpty()) {
+            recognitionError.setValue("Сначала выберите или сфотографируйте продукт.");
+            return;
+        }
+        recognitionResult.setValue(null);
+        recognitionError.setValue(null);
+        recognitionInProgress.setValue(true);
         io.execute(() -> {
-            RecognitionResult result = recognizeProductUseCase.execute(imagePath == null ? "" : imagePath);
-            if (result == null) {
-                message.postValue("Не удалось распознать изображение");
-            } else {
-                message.postValue("Тестовый результат: " + result.getProductType()
-                        + ". Уверенность: " + Math.round(result.getConfidence() * 100)
-                        + "%. Сейчас используется заглушка; для настоящего распознавания нужна модель TensorFlow Lite.");
+            try {
+                RecognitionResult result = recognizeProductUseCase.execute(imagePath);
+                if (result == null) {
+                    recognitionError.postValue("Не удалось распознать изображение.");
+                } else {
+                    recognitionResult.postValue(result);
+                }
+            } catch (RuntimeException e) {
+                Log.e(TAG, "Ошибка TensorFlow Lite распознавания", e);
+                String reason = e.getMessage();
+                recognitionError.postValue(reason == null || reason.trim().isEmpty()
+                        ? "Не удалось распознать продукт. Попробуйте другое изображение."
+                        : reason);
+            } finally {
+                recognitionInProgress.postValue(false);
             }
         });
     }
