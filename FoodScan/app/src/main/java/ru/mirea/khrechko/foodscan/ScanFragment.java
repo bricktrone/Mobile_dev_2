@@ -22,6 +22,6 @@ public class ScanFragment extends Fragment {
             String value = barcode.getText() == null ? "" : barcode.getText().toString().trim();
             viewModel.findProductByBarcode(value);
         });
-        view.findViewById(R.id.headerProfileIcon).setOnClickListener(v -> ((MainActivity)requireActivity()).navigateTo(new ProfileFragment(), "profile"));
+        view.findViewById(R.id.headerProfileIcon).setOnClickListener(v -> ((MainActivity)requireActivity()).selectTab(R.id.nav_profile));
     }
 }

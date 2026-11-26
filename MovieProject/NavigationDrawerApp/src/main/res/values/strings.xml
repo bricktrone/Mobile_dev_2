@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MovieProject</string>
+    <string name="title_home">Каталог</string>
+    <string name="title_info">Жанры</string>
+    <string name="title_profile">Профиль</string>
+    <string name="drawer_header_title">MovieProject</string>
+    <string name="drawer_header_subtitle">Каталог кино и подборки</string>
+    <string name="home_message">Каталог фильмов</string>
+    <string name="home_description">Главный раздел приложения. Здесь пользователь может просматривать список фильмов и открывать подробные карточки.</string>
+    <string name="info_message">Жанры и подборки</string>
+    <string name="info_description">Раздел для перехода к фильмам по жанрам и тематическим подборкам.</string>
+    <string name="profile_message">Профиль пользователя</string>
+    <string name="profile_description">В этом разделе может отображаться информация о пользователе и его настройках.</string>
+</resources>

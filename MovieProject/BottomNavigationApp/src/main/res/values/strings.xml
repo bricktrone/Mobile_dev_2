@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Кинотека</string>
+    <string name="title_home">Фильмы</string>
+    <string name="title_info">Избранное</string>
+    <string name="title_profile">Профиль</string>
+    <string name="home_message">Каталог фильмов</string>
+    <string name="home_description">На главном экране собраны фильмы и премьеры. Переходите в избранное или открывайте профиль пользователя.</string>
+    <string name="info_message">Избранные фильмы</string>
+    <string name="info_description">Здесь размещаются фильмы, которые пользователь сохранил для просмотра позже.</string>
+    <string name="profile_message">Профиль пользователя</string>
+    <string name="profile_description">В профиле могут отображаться данные аккаунта и пользовательские настройки.</string>
+</resources>

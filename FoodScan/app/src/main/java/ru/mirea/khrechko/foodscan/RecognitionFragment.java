@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 public class RecognitionFragment extends Fragment {
@@ -31,7 +32,7 @@ public class RecognitionFragment extends Fragment {
     @Override public void onViewCreated(@NonNull View view, @Nullable Bundle state) {
         viewModel = new ViewModelProvider(requireActivity(), new FoodScanViewModelFactory(requireContext())).get(MainViewModel.class);
         preview=view.findViewById(R.id.imageRecognitionPreview); placeholder=view.findViewById(R.id.recognitionPlaceholder); result=view.findViewById(R.id.textRecognitionResult);
-        view.findViewById(R.id.buttonBackRecognition).setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
+        view.findViewById(R.id.buttonBackRecognition).setOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
         view.findViewById(R.id.buttonChooseImage).setOnClickListener(v -> imagePicker.launch("image/*"));
         view.findViewById(R.id.buttonRunRecognition).setOnClickListener(v -> {
             if (selectedImage == null) { result.setText("Сначала выберите фотографию продукта."); return; }

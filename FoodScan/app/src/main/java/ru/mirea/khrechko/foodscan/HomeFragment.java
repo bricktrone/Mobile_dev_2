@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.tileProfile).setOnClickListener(v -> ((MainActivity)requireActivity()).selectTab(R.id.nav_profile));
         view.findViewById(R.id.buttonRetryCatalog).setOnClickListener(v -> viewModel.reloadCatalog());
         View headerProfile = view.findViewById(R.id.headerProfileIcon);
-        headerProfile.setOnClickListener(v -> ((MainActivity)requireActivity()).navigateTo(new ProfileFragment(), "profile"));
+        headerProfile.setOnClickListener(v -> ((MainActivity)requireActivity()).selectTab(R.id.nav_profile));
     }
     private void searchBarcode() {
         String barcode = barcodeInput.getText() == null ? "" : barcodeInput.getText().toString().trim();

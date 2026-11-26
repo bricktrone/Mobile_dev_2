@@ -4,7 +4,7 @@
             "outputFile": "ru.mirea.khrechko.resultapifragmentapp.ResultApiFragmentApp-mergeDebugResources-35:/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\roman\\.gradle\\caches\\8.13\\transforms\\e496b4949bc2910726d88200fb353aa0\\transformed\\appcompat-1.7.0\\res\\values-xlarge-v4\\values-xlarge-v4.xml",
+                    "source": "C:\\Users\\roman\\.gradle\\caches\\8.13\\transforms\\2c13f699c220182326590ff4027c6c93\\transformed\\appcompat-1.7.0\\res\\values-xlarge-v4\\values-xlarge-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",

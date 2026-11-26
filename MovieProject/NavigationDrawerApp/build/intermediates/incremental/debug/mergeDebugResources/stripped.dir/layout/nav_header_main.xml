@@ -1,0 +1,8 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="176dp" android:background="@color/purple_500"
+    android:gravity="bottom" android:orientation="vertical" android:padding="20dp">
+    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_profile_nav" android:tint="@color/white" android:contentDescription="Иконка профиля" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp"
+        android:text="@string/drawer_header_title" android:textColor="@color/white" android:textSize="18sp" android:textStyle="bold" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/drawer_header_subtitle" android:textColor="@color/white" android:textSize="13sp" />
+</LinearLayout>

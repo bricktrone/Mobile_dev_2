@@ -21,7 +21,6 @@
         android:extractNativeLibs="false"
         android:label="ResultApiFragmentApp"
         android:supportsRtl="true"
-        android:testOnly="true"
         android:theme="@style/Theme.FragmentPractice" >
         <activity
             android:name="ru.mirea.khrechko.resultapifragmentapp.MainActivity"

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.squareup.picasso.Picasso;
 import ru.mirea.khrechko.foodscan.domain.models.Product;
@@ -48,7 +49,7 @@ public class ProductDetailFragment extends Fragment {
             }
         });
         favorite.setOnClickListener(v -> detailViewModel.toggleFavorite());
-        view.findViewById(R.id.buttonBackProduct).setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
+        view.findViewById(R.id.buttonBackProduct).setOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
         int id=requireArguments().getInt(ARG_PRODUCT_ID,-1);
         if (id < 0) id = mainViewModel.getSelectedProductId().getValue() == null ? -1 : mainViewModel.getSelectedProductId().getValue();
         detailViewModel.loadProduct(id);

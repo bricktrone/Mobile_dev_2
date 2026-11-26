@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    buildFeatures { viewBinding = true }
     namespace = "ru.mirea.khrechko.movieproject"
     compileSdk = 36
     defaultConfig {

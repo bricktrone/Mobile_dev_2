@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-mergeDebugResources-46:/values-watch-v20/values-watch-v20.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\roman\\.gradle\\caches\\8.13\\transforms\\2c13f699c220182326590ff4027c6c93\\transformed\\appcompat-1.7.0\\res\\values-watch-v20\\values-watch-v20.xml",
+                    "from": {
+                        "startLines": "2,5,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,214,385",
+                        "endLines": "4,7,10",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "209,380,553"
+                    }
+                }
+            ]
+        }
+    ]
+}

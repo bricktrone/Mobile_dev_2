@@ -28,7 +28,7 @@ public class FavoritesFragment extends Fragment {
         adapter = new ProductRecyclerViewAdapter(this::openProduct); recycler.setAdapter(adapter);
         viewModel.getFavorites().observe(getViewLifecycleOwner(), products -> renderFavorites(products, recycler));
         view.findViewById(R.id.buttonBrowseProducts).setOnClickListener(v -> ((MainActivity)requireActivity()).selectTab(R.id.nav_home));
-        view.findViewById(R.id.headerProfileIcon).setOnClickListener(v -> ((MainActivity)requireActivity()).navigateTo(new ProfileFragment(), "profile"));
+        view.findViewById(R.id.headerProfileIcon).setOnClickListener(v -> ((MainActivity)requireActivity()).selectTab(R.id.nav_profile));
         viewModel.loadFavorites();
     }
     private void renderFavorites(List<Product> products, RecyclerView recycler) {

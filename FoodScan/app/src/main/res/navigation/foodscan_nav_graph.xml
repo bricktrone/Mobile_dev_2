@@ -1,0 +1,12 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/foodscan_nav_graph" app:startDestination="@id/nav_home">
+    <fragment android:id="@+id/nav_home" android:name="ru.mirea.khrechko.foodscan.HomeFragment" android:label="Главная" />
+    <fragment android:id="@+id/nav_scan" android:name="ru.mirea.khrechko.foodscan.ScanFragment" android:label="Поиск" />
+    <fragment android:id="@+id/nav_favorites" android:name="ru.mirea.khrechko.foodscan.FavoritesFragment" android:label="Избранное" />
+    <fragment android:id="@+id/nav_profile" android:name="ru.mirea.khrechko.foodscan.ProfileFragment" android:label="Профиль" />
+    <fragment android:id="@+id/recognitionFragment" android:name="ru.mirea.khrechko.foodscan.RecognitionFragment" android:label="Распознавание" />
+    <fragment android:id="@+id/productDetailFragment" android:name="ru.mirea.khrechko.foodscan.ProductDetailFragment" android:label="Продукт">
+        <argument android:name="product_id" app:argType="integer" />
+    </fragment>
+</navigation>

@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    buildFeatures { viewBinding = true }
     namespace = "ru.mirea.khrechko.foodscan"
     compileSdk = 36
 
@@ -46,6 +47,8 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.livedata)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
     implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

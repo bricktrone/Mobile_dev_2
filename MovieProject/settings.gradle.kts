@@ -30,3 +30,7 @@ include(":FragmentApp")
 include(":FragmentManagerApp")
 include(":ResultApiFragmentApp")
 
+
+include(":BottomNavigationApp")
+
+include(":NavigationDrawerApp")

@@ -1,0 +1,11 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_nav_graph" app:startDestination="@id/nav_home">
+    <fragment android:id="@+id/nav_home" android:name="ru.mirea.khrechko.navigationdrawerapp.HomeFragment" android:label="@string/title_home">
+        <action android:id="@+id/action_nav_home_to_nav_info" app:destination="@id/nav_info" />
+    </fragment>
+    <fragment android:id="@+id/nav_info" android:name="ru.mirea.khrechko.navigationdrawerapp.InfoFragment" android:label="@string/title_info">
+        <action android:id="@+id/action_nav_info_to_nav_profile" app:destination="@id/nav_profile" />
+    </fragment>
+    <fragment android:id="@+id/nav_profile" android:name="ru.mirea.khrechko.navigationdrawerapp.ProfileFragment" android:label="@string/title_profile" />
+</navigation>

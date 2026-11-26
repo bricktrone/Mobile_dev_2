@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-mergeDebugResources-47:/layout/fragment_info.xml",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/layout/fragment_info.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-mergeDebugResources-47:/layout/activity_main.xml",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/layout/activity_main.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-mergeDebugResources-47:/layout/fragment_profile.xml",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-mergeDebugResources-47:/layout/fragment_home.xml",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/layout/fragment_home.xml"
+    }
+]

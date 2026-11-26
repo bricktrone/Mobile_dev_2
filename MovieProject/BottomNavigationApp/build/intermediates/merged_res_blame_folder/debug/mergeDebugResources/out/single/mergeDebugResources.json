@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-debug-48:/menu_bottom_nav_menu.xml.flat",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/menu/bottom_nav_menu.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-debug-48:/drawable_ic_profile_nav.xml.flat",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/drawable/ic_profile_nav.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-debug-48:/layout_fragment_home.xml.flat",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/layout/fragment_home.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-debug-48:/layout_fragment_info.xml.flat",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/layout/fragment_info.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-debug-48:/drawable_ic_info_nav.xml.flat",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/drawable/ic_info_nav.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-debug-48:/layout_activity_main.xml.flat",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/layout/activity_main.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-debug-48:/layout_fragment_profile.xml.flat",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-debug-48:/drawable_ic_menu_nav.xml.flat",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/drawable/ic_menu_nav.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-debug-48:/navigation_bottom_nav_graph.xml.flat",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/navigation/bottom_nav_graph.xml"
+    },
+    {
+        "merged": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-debug-48:/drawable_ic_home_nav.xml.flat",
+        "source": "ru.mirea.khrechko.bottomnavigationapp.BottomNavigationApp-main-50:/drawable/ic_home_nav.xml"
+    }
+]

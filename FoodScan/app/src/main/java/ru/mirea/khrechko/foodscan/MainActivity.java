@@ -5,31 +5,32 @@ import android.os.Bundle;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import ru.mirea.khrechko.foodscan.databinding.ActivityMainBinding;
 import ru.mirea.khrechko.foodscan.domain.models.Product;
 
-/** Single-activity host. Each application screen is a Fragment managed by FragmentManager. */
+/** Main host for FoodScan navigation. Navigation Component manages all Fragment destinations and the back stack. */
 public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding binding;
     private MainViewModel viewModel;
-    private BottomNavigationView bottomNavigation;
+    private NavController navController;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         viewModel = new ViewModelProvider(this, new FoodScanViewModelFactory(this)).get(MainViewModel.class);
-        bottomNavigation = findViewById(R.id.bottomNavigation);
-        bottomNavigation.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.nav_home) showRoot(new HomeFragment());
-            else if (id == R.id.nav_scan) showRoot(new ScanFragment());
-            else if (id == R.id.nav_favorites) showRoot(new FavoritesFragment());
-            else if (id == R.id.nav_profile) showRoot(new ProfileFragment());
-            else return false;
-            return true;
-        });
+        NavHostFragment navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        if (navHost == null) throw new IllegalStateException("NavHostFragment не найден");
+        navController = navHost.getNavController();
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+
         viewModel.getProductFromBarcode().observe(this, product -> {
             if (product != null) {
                 viewModel.clearProductFromBarcode();
@@ -48,41 +49,26 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        if (savedInstanceState == null) {
-            bottomNavigation.setSelectedItemId(R.id.nav_home);
-        }
     }
 
-    private void showRoot(@NonNull Fragment fragment) {
-        FragmentManager manager = getSupportFragmentManager();
-
-        manager.popBackStack(
-                null,
-                FragmentManager.POP_BACK_STACK_INCLUSIVE
-        );
-
-        manager.beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(
-                        R.id.fragmentContainer,
-                        fragment,
-                        fragment.getClass().getSimpleName()
-                )
-                .commit();
-    }
-
-    public void navigateTo(@NonNull Fragment fragment, @NonNull String backStackName) {
-        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true)
-                .replace(R.id.fragmentContainer, fragment, fragment.getClass().getSimpleName())
-                .addToBackStack(backStackName).commit();
+    /** Opens a destination represented in the BottomNavigation menu. */
+    public void selectTab(int menuItemId) {
+        if (binding != null) binding.bottomNavigation.setSelectedItemId(menuItemId);
     }
 
     public void openProduct(@NonNull Product product) {
         viewModel.selectProduct(product.getId());
-        navigateTo(ProductDetailFragment.newInstance(product.getId()), "product_detail");
+        Bundle args = new Bundle();
+        args.putInt("product_id", product.getId());
+        NavOptions options = new NavOptions.Builder().setLaunchSingleTop(true).build();
+        navController.navigate(R.id.productDetailFragment, args, options);
     }
 
-    public void openRecognition() { navigateTo(new RecognitionFragment(), "recognition"); }
+    public void openRecognition() {
+        navController.navigate(R.id.recognitionFragment, null,
+                new NavOptions.Builder().setLaunchSingleTop(true).build());
+    }
+
     public void openAuth() {
         Intent intent = new Intent(this, AuthActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -91,13 +77,14 @@ public class MainActivity extends AppCompatActivity {
 
     public MainViewModel getMainViewModel() { return viewModel; }
 
-    public void selectTab(int menuItemId) {
-        bottomNavigation.setSelectedItemId(menuItemId);
-    }
-
     @Override protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
         if (viewModel != null) viewModel.refreshProfile();
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }
